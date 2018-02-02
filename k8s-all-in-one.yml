@@ -1,0 +1,32 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: first-docker-app-deployment 
+  labels:
+    app: first-docker-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: first-docker-app
+  template:
+    metadata:
+      labels:
+        app: first-docker-app
+    spec:
+      containers:
+      - name: first-docker-app
+        image: morganpeat/firstdockerapp
+        ports:
+        - containerPort: 80	
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: first-docker-app-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: first-docker-app
